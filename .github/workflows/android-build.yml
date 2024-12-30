@@ -10,6 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Run EAS build
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # Specify the Node.js version required by your project
+
+      # Step 3: Install EAS CLI
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      # Step 4: Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 5: Authenticate with EAS (Expo Application Services)
+      # You must set the EXPO_TOKEN secret in your GitHub repository settings
+      - name: Authenticate with EAS
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas whoami
+
+      # Step 6: Run EAS build
       - name: Build Android app locally
         run: eas build --platform android --local
