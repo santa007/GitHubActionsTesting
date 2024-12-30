@@ -1,0 +1,15 @@
+name: Build React Native App
+
+on:
+  push: # Trigger on all pushes to any branch
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Run EAS build
+      - name: Build Android app locally
+        run: eas build --platform android --local
